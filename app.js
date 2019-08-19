@@ -16,13 +16,13 @@ app.get("/stop/:stop/:line", (req, res) => {
     let line = req.params.line;
 
     if(stop && line) {
-        let url = helpers.createUrl(stop)
+        let url = helpers.createDeparturesUrl(stop)
 
         axios.get(url.toString())
         .then(response => {
-            let x = helpers.getFirstTime(response.data[0].departures, line); 
-            console.log(x);
-            res.send({"nextTime": x})
+            let nextTime = helpers.getFirstTime(response, line); 
+            console.log(nextTime);
+            res.send({time: nextTime})
         })
         .catch(error => {
           console.log(error);

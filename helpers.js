@@ -1,7 +1,7 @@
 const secret = require("./secrets.json"); 
 
 module.exports = {
-    createUrl: stop => {
+    createDeparturesUrl: stop => {
         let url = new URL("http://api.publictransport.tampere.fi/prod/");
         url.searchParams.append("user", secret.user);
         url.searchParams.append("pass", secret.pass);
@@ -13,7 +13,22 @@ module.exports = {
         return url; 
     },
 
-    getFirstTime: (departures, line) => {
+    createLinesUrl: stop => {
+        let url = new URL("http://api.publictransport.tampere.fi/prod/");
+        url.searchParams.append("user", secret.user);
+        url.searchParams.append("pass", secret.pass);
+        url.searchParams.append("request", "stop");
+        url.searchParams.append("format", "json");
+        url.searchParams.append("code", stop);
+        url.searchParams.append("dep_limit", 1);
+        url.searchParams.append("time_limit", 1); 
+
+        
+        return url; 
+    }, 
+
+    getFirstTime: (data, line) => {
+        let departures = data.data[0].departures
         for(let dep of departures) {
             if(dep.code == line) {
                 return dep.time; 
