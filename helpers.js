@@ -36,5 +36,9 @@ module.exports = {
                 return dep.time; 
             }
         }
+    },
+
+    getLines: (data) => {
+        return data.data[0].lines;
     }
 }

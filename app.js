@@ -30,4 +30,25 @@ app.get("/stop/:stop/:line", (req, res) => {
     }
 })
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+
+app.get("/lines/:stop", (req, res) => {
+  let stop = req.params.stop; 
+  console.log("hit"); 
+
+  if(stop) {
+    let url = helpers.createLinesUrl(stop); 
+
+    axios.get(url.toString())
+    .then(response => {
+      let lines = helpers.getLines(response); 
+      console.log(lines);
+      res.send({lines: lines}) 
+    })
+    .catch(err => {
+      console.log(err); 
+    })
+  }
+}); 
+
+
+app.listen(port, () => console.log(`Ready to receive calls in port ${port}!`))
