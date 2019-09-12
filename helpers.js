@@ -40,5 +40,16 @@ module.exports = {
 
     getLines: (data) => {
         return data.data[0].lines;
+    },
+
+    parseLines: (lines) => {
+      const regex  = /(\w+) .+/
+
+      return lines.map(line => {
+        let match = line.match(regex);
+        return match ? match[1] : null
+      }).filter((item, index, thisArray) => {
+        return thisArray.indexOf(item) === index && item !== null
+      })
     }
 }
